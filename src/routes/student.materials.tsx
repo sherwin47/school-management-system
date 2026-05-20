@@ -10,7 +10,7 @@ const icons = { pdf: FileText, video: Film, doc: File, link: FileText };
 
 function Page() {
   const { store, dispatch } = useStore();
-  const materials = store.studyMaterials.filter(m => m.grade === "10");
+  const materials = store.studyMaterials.filter((m) => m.grade === "10");
 
   const handleDownload = (id: string, title: string) => {
     dispatch({ type: "UPDATE_STUDY_MATERIAL", payload: { id, updates: { downloaded: true } } });
@@ -21,25 +21,44 @@ function Page() {
     <div>
       <PageHeader title="Study Materials" subtitle="Download resources shared by your teachers" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {materials.map(m => {
+        {materials.map((m) => {
           const Icon = icons[m.type] || FileText;
           return (
-            <div key={m.id} className="rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md transition-all">
+            <div
+              key={m.id}
+              className="rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md transition-all"
+            >
               <div className="flex items-start gap-3">
-                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-accent/10 text-accent"><Icon className="h-5 w-5" /></div>
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-accent/10 text-accent">
+                  <Icon className="h-5 w-5" />
+                </div>
                 <div className="flex-1 min-w-0">
                   <div className="font-medium text-sm">{m.title}</div>
-                  <div className="text-xs text-muted-foreground mt-0.5">{m.subject} · {m.uploadedBy} · {m.uploadDate}</div>
-                  <div className="text-xs text-muted-foreground">{m.size} · {m.type.toUpperCase()}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">
+                    {m.subject} · {m.uploadedBy} · {m.uploadDate}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {m.size} · {m.type.toUpperCase()}
+                  </div>
                 </div>
               </div>
-              <button onClick={() => handleDownload(m.id, m.title)} className={`mt-3 flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all active:scale-95 ${m.downloaded ? "border border-border text-muted-foreground" : "bg-primary text-primary-foreground hover:bg-primary/90"}`}>
-                <Download className="h-4 w-4" />{m.downloaded ? "Downloaded" : "Download"}
+              <button
+                onClick={() => handleDownload(m.id, m.title)}
+                className={`mt-3 flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all active:scale-95 ${m.downloaded ? "border border-border text-muted-foreground" : "bg-primary text-primary-foreground hover:bg-primary/90"}`}
+              >
+                <Download className="h-4 w-4" />
+                {m.downloaded ? "Downloaded" : "Download"}
               </button>
             </div>
           );
         })}
-        {materials.length === 0 && <EmptyState icon={FileText} title="No materials" description="Your teachers haven't shared any materials yet." />}
+        {materials.length === 0 && (
+          <EmptyState
+            icon={FileText}
+            title="No materials"
+            description="Your teachers haven't shared any materials yet."
+          />
+        )}
       </div>
     </div>
   );

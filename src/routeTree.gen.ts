@@ -29,6 +29,7 @@ import { Route as TeacherFeedRouteImport } from './routes/teacher.feed'
 import { Route as TeacherExamsRouteImport } from './routes/teacher.exams'
 import { Route as TeacherAttendanceRouteImport } from './routes/teacher.attendance'
 import { Route as TeacherAssignmentsRouteImport } from './routes/teacher.assignments'
+import { Route as TeacherAiHubRouteImport } from './routes/teacher.ai-hub'
 import { Route as StudentTransportRouteImport } from './routes/student.transport'
 import { Route as StudentTimetableRouteImport } from './routes/student.timetable'
 import { Route as StudentSyllabusRouteImport } from './routes/student.syllabus'
@@ -152,6 +153,11 @@ const TeacherAttendanceRoute = TeacherAttendanceRouteImport.update({
 const TeacherAssignmentsRoute = TeacherAssignmentsRouteImport.update({
   id: '/assignments',
   path: '/assignments',
+  getParentRoute: () => TeacherRoute,
+} as any)
+const TeacherAiHubRoute = TeacherAiHubRouteImport.update({
+  id: '/ai-hub',
+  path: '/ai-hub',
   getParentRoute: () => TeacherRoute,
 } as any)
 const StudentTransportRoute = StudentTransportRouteImport.update({
@@ -305,6 +311,7 @@ export interface FileRoutesByFullPath {
   '/student/syllabus': typeof StudentSyllabusRoute
   '/student/timetable': typeof StudentTimetableRoute
   '/student/transport': typeof StudentTransportRoute
+  '/teacher/ai-hub': typeof TeacherAiHubRoute
   '/teacher/assignments': typeof TeacherAssignmentsRoute
   '/teacher/attendance': typeof TeacherAttendanceRoute
   '/teacher/exams': typeof TeacherExamsRoute
@@ -348,6 +355,7 @@ export interface FileRoutesByTo {
   '/student/syllabus': typeof StudentSyllabusRoute
   '/student/timetable': typeof StudentTimetableRoute
   '/student/transport': typeof StudentTransportRoute
+  '/teacher/ai-hub': typeof TeacherAiHubRoute
   '/teacher/assignments': typeof TeacherAssignmentsRoute
   '/teacher/attendance': typeof TeacherAttendanceRoute
   '/teacher/exams': typeof TeacherExamsRoute
@@ -395,6 +403,7 @@ export interface FileRoutesById {
   '/student/syllabus': typeof StudentSyllabusRoute
   '/student/timetable': typeof StudentTimetableRoute
   '/student/transport': typeof StudentTransportRoute
+  '/teacher/ai-hub': typeof TeacherAiHubRoute
   '/teacher/assignments': typeof TeacherAssignmentsRoute
   '/teacher/attendance': typeof TeacherAttendanceRoute
   '/teacher/exams': typeof TeacherExamsRoute
@@ -443,6 +452,7 @@ export interface FileRouteTypes {
     | '/student/syllabus'
     | '/student/timetable'
     | '/student/transport'
+    | '/teacher/ai-hub'
     | '/teacher/assignments'
     | '/teacher/attendance'
     | '/teacher/exams'
@@ -486,6 +496,7 @@ export interface FileRouteTypes {
     | '/student/syllabus'
     | '/student/timetable'
     | '/student/transport'
+    | '/teacher/ai-hub'
     | '/teacher/assignments'
     | '/teacher/attendance'
     | '/teacher/exams'
@@ -532,6 +543,7 @@ export interface FileRouteTypes {
     | '/student/syllabus'
     | '/student/timetable'
     | '/student/transport'
+    | '/teacher/ai-hub'
     | '/teacher/assignments'
     | '/teacher/attendance'
     | '/teacher/exams'
@@ -697,6 +709,13 @@ declare module '@tanstack/react-router' {
       path: '/assignments'
       fullPath: '/teacher/assignments'
       preLoaderRoute: typeof TeacherAssignmentsRouteImport
+      parentRoute: typeof TeacherRoute
+    }
+    '/teacher/ai-hub': {
+      id: '/teacher/ai-hub'
+      path: '/ai-hub'
+      fullPath: '/teacher/ai-hub'
+      preLoaderRoute: typeof TeacherAiHubRouteImport
       parentRoute: typeof TeacherRoute
     }
     '/student/transport': {
@@ -940,6 +959,7 @@ const StudentRouteWithChildren =
   StudentRoute._addFileChildren(StudentRouteChildren)
 
 interface TeacherRouteChildren {
+  TeacherAiHubRoute: typeof TeacherAiHubRoute
   TeacherAssignmentsRoute: typeof TeacherAssignmentsRoute
   TeacherAttendanceRoute: typeof TeacherAttendanceRoute
   TeacherExamsRoute: typeof TeacherExamsRoute
@@ -956,6 +976,7 @@ interface TeacherRouteChildren {
 }
 
 const TeacherRouteChildren: TeacherRouteChildren = {
+  TeacherAiHubRoute: TeacherAiHubRoute,
   TeacherAssignmentsRoute: TeacherAssignmentsRoute,
   TeacherAttendanceRoute: TeacherAttendanceRoute,
   TeacherExamsRoute: TeacherExamsRoute,

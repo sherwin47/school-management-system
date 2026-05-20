@@ -1,9 +1,18 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { Bell, Search, ChevronLeft, LogOut, type LucideIcon } from "lucide-react";
+import {
+  Bell,
+  Search,
+  ChevronLeft,
+  LogOut,
+  X,
+  GraduationCap,
+  type LucideIcon,
+} from "lucide-react";
 import { useMemo, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
+import { PageContent } from "@/components/page-ui";
 
 export type NavGroup = {
   label: string;
@@ -45,26 +54,36 @@ export function ModuleShell({ brand, roleLabel, groups, children }: ModuleShellP
 
   const displayUser = user ?? { name: "Guest", sub: "", initials: "G" };
 
-  const sidebarContent = (
+  const sidebarContent = (showClose: boolean) => (
     <>
       <div className="flex h-16 items-center gap-2.5 border-b border-sidebar-border px-4">
-        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground font-bold">
-          C
+        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-sidebar-primary to-accent text-sidebar-primary-foreground shadow-md">
+          <GraduationCap className="h-5 w-5" />
         </div>
-        {!collapsed && (
-          <div className="min-w-0">
+        {(!collapsed || showClose) && (
+          <div className="min-w-0 flex-1">
             <div className="truncate text-sm font-semibold">{brand}</div>
             <div className="truncate text-[11px] uppercase tracking-wider text-sidebar-foreground/60">
               {roleLabel}
             </div>
           </div>
         )}
+        {showClose && (
+          <button
+            type="button"
+            onClick={() => setMobileOpen(false)}
+            className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground md:hidden"
+            aria-label="Close menu"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        )}
       </div>
 
       <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-4">
         {groups.map((group) => (
           <div key={group.label}>
-            {!collapsed && (
+            {(!collapsed || showClose) && (
               <div className="mb-1.5 px-2 text-[10px] font-semibold uppercase tracking-wider text-sidebar-foreground/50">
                 {group.label}
               </div>
@@ -79,15 +98,15 @@ export function ModuleShell({ brand, roleLabel, groups, children }: ModuleShellP
                       title={item.label}
                       onClick={() => setMobileOpen(false)}
                       className={cn(
-                        "flex items-center gap-3 rounded-md px-2.5 py-2 text-sm font-medium transition-all",
+                        "flex items-center gap-3 rounded-lg px-2.5 py-2 text-sm font-medium transition-all",
                         active
-                          ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm"
+                          ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-md shadow-sidebar-primary/25"
                           : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                        collapsed && "justify-center",
+                        collapsed && !showClose && "justify-center",
                       )}
                     >
                       <item.icon className="h-4 w-4 shrink-0" />
-                      {!collapsed && <span className="truncate">{item.label}</span>}
+                      {(!collapsed || showClose) && <span className="truncate">{item.label}</span>}
                     </Link>
                   </li>
                 );
@@ -97,13 +116,17 @@ export function ModuleShell({ brand, roleLabel, groups, children }: ModuleShellP
         ))}
       </nav>
 
-      {/* User + Sign Out */}
       <div className="border-t border-sidebar-border p-3 space-y-2">
-        <div className={cn("flex items-center gap-3 rounded-md p-2", collapsed && "justify-center")}>
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-sidebar-accent text-sm font-semibold">
+        <div
+          className={cn(
+            "flex items-center gap-3 rounded-lg bg-sidebar-accent/50 p-2",
+            collapsed && !showClose && "justify-center",
+          )}
+        >
+          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-sidebar-primary/30 text-sm font-semibold ring-2 ring-sidebar-primary/40">
             {displayUser.initials}
           </div>
-          {!collapsed && (
+          {(!collapsed || showClose) && (
             <div className="min-w-0">
               <div className="truncate text-sm font-medium">{displayUser.name}</div>
               <div className="truncate text-xs text-sidebar-foreground/60">{displayUser.sub}</div>
@@ -111,15 +134,16 @@ export function ModuleShell({ brand, roleLabel, groups, children }: ModuleShellP
           )}
         </div>
         <button
+          type="button"
           onClick={handleSignOut}
           id="sign-out-btn"
           className={cn(
-            "flex w-full items-center gap-3 rounded-md px-2.5 py-2 text-sm font-medium text-sidebar-foreground/70 transition-all hover:bg-red-500/15 hover:text-red-400",
-            collapsed && "justify-center",
+            "flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-sm font-medium text-sidebar-foreground/70 transition-all hover:bg-red-500/15 hover:text-red-300",
+            collapsed && !showClose && "justify-center",
           )}
         >
           <LogOut className="h-4 w-4 shrink-0" />
-          {!collapsed && <span>Sign Out</span>}
+          {(!collapsed || showClose) && <span>Sign Out</span>}
         </button>
       </div>
     </>
@@ -127,64 +151,83 @@ export function ModuleShell({ brand, roleLabel, groups, children }: ModuleShellP
 
   return (
     <div className="flex min-h-screen w-full bg-background">
-      {/* Mobile overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 bg-black/50 md:hidden" onClick={() => setMobileOpen(false)} />
+        <div
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+          onClick={() => setMobileOpen(false)}
+          aria-hidden
+        />
       )}
 
-      {/* Mobile sidebar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-sidebar text-sidebar-foreground transition-transform md:hidden",
+          "fixed inset-y-0 left-0 z-50 flex w-[min(100vw-3rem,17rem)] flex-col bg-sidebar text-sidebar-foreground shadow-2xl transition-transform duration-300 ease-out md:hidden",
           mobileOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        {sidebarContent}
+        {sidebarContent(true)}
       </aside>
 
-      {/* Desktop sidebar */}
       <aside
         className={cn(
-          "sticky top-0 hidden md:flex h-screen flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-all",
+          "sticky top-0 hidden md:flex h-screen flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-[width] duration-300",
           collapsed ? "w-[72px]" : "w-64",
         )}
       >
-        {sidebarContent}
+        {sidebarContent(false)}
       </aside>
 
-      {/* Main */}
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-10 flex h-16 items-center gap-3 border-b border-border bg-card/80 px-4 md:px-6 backdrop-blur">
-          {/* Mobile hamburger */}
+        <header className="glass-header sticky top-0 z-10 flex h-14 sm:h-16 items-center gap-2 sm:gap-3 border-b border-border px-3 sm:px-4 md:px-6">
           <button
+            type="button"
             onClick={() => setMobileOpen(true)}
-            className="grid h-9 w-9 place-items-center rounded-md border border-border text-muted-foreground hover:bg-muted md:hidden"
+            className="grid h-9 w-9 place-items-center rounded-lg border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:bg-muted md:hidden"
+            aria-label="Open menu"
           >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
           </button>
           <button
+            type="button"
             onClick={() => setCollapsed((c) => !c)}
-            className="hidden md:grid h-9 w-9 place-items-center rounded-md border border-border text-muted-foreground hover:bg-muted"
+            className="hidden md:grid h-9 w-9 place-items-center rounded-lg border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:bg-muted"
             aria-label="Toggle sidebar"
           >
-            <ChevronLeft className={cn("h-4 w-4 transition", collapsed && "rotate-180")} />
+            <ChevronLeft className={cn("h-4 w-4 transition-transform", collapsed && "rotate-180")} />
           </button>
 
-          <div className="relative max-w-md flex-1">
+          <div className="relative hidden min-w-0 flex-1 sm:block sm:max-w-md">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
-              placeholder="Search…"
-              className="h-9 w-full rounded-md border border-border bg-background pl-9 pr-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
+              placeholder="Search campus…"
+              className="h-9 w-full rounded-lg border border-border bg-background/80 pl-9 pr-3 text-sm shadow-sm outline-none transition-all focus:border-accent focus:ring-2 focus:ring-accent/20"
             />
           </div>
 
-          <button className="relative grid h-9 w-9 place-items-center rounded-md border border-border text-muted-foreground hover:bg-muted">
+          <span className="ml-auto hidden rounded-full border border-accent/20 bg-accent/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-accent sm:inline-flex">
+            {roleLabel}
+          </span>
+
+          <button
+            type="button"
+            className="relative grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:bg-muted"
+            aria-label="Notifications"
+          >
             <Bell className="h-4 w-4" />
-            <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-destructive" />
+            <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-destructive ring-2 ring-card" />
           </button>
         </header>
 
-        <main className="flex-1 px-4 py-6 md:px-6">{children}</main>
+        <main className="page-mesh flex-1 px-3 py-5 sm:px-4 sm:py-6 md:px-6">
+          <PageContent>{children}</PageContent>
+        </main>
       </div>
     </div>
   );
@@ -200,37 +243,53 @@ export function PageHeader({
   actions?: ReactNode;
 }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">{title}</h1>
+    <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
+      <div className="min-w-0">
+        <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">{title}</h1>
         {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
       </div>
-      {actions && <div className="flex items-center gap-2">{actions}</div>}
+      {actions && (
+        <div className="flex flex-wrap items-center gap-2 shrink-0">{actions}</div>
+      )}
     </div>
   );
 }
 
 export function StatCard({
-  label, value, delta, icon: Icon, tone = "default",
+  label,
+  value,
+  delta,
+  icon: Icon,
+  tone = "default",
 }: {
-  label: string; value: string; delta?: string; icon: LucideIcon;
+  label: string;
+  value: string;
+  delta?: string;
+  icon: LucideIcon;
   tone?: "default" | "success" | "warning" | "info";
 }) {
   const toneMap = {
     default: "bg-primary/10 text-primary",
-    success: "bg-[oklch(0.65_0.15_155)]/15 text-[oklch(0.45_0.15_155)]",
-    warning: "bg-[oklch(0.75_0.15_75)]/15 text-[oklch(0.50_0.15_75)]",
+    success: "bg-success/12 text-success",
+    warning: "bg-warning/12 text-warning",
     info: "bg-accent/10 text-accent",
   } as const;
   return (
-    <div className="rounded-xl border border-border bg-card p-5 shadow-sm transition-all hover:shadow-md">
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</div>
-          <div className="mt-2 text-2xl font-semibold tracking-tight text-foreground">{value}</div>
+    <div className="group rounded-xl border border-border/80 bg-card/90 p-5 shadow-sm backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-accent/20 hover:shadow-lg">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            {label}
+          </div>
+          <div className="mt-2 text-2xl font-bold tracking-tight text-foreground">{value}</div>
           {delta && <div className="mt-1 text-xs text-muted-foreground">{delta}</div>}
         </div>
-        <div className={cn("grid h-10 w-10 place-items-center rounded-lg", toneMap[tone])}>
+        <div
+          className={cn(
+            "grid h-11 w-11 shrink-0 place-items-center rounded-xl transition-transform group-hover:scale-105",
+            toneMap[tone],
+          )}
+        >
           <Icon className="h-5 w-5" />
         </div>
       </div>
@@ -238,10 +297,25 @@ export function StatCard({
   );
 }
 
-export function Panel({ title, action, children }: { title: string; action?: ReactNode; children: ReactNode }) {
+export function Panel({
+  title,
+  action,
+  children,
+  className,
+}: {
+  title: string;
+  action?: ReactNode;
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
+    <div
+      className={cn(
+        "rounded-xl border border-border/80 bg-card/90 p-4 sm:p-5 shadow-sm backdrop-blur-sm",
+        className,
+      )}
+    >
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-sm font-semibold text-foreground">{title}</h3>
         {action}
       </div>
@@ -250,15 +324,25 @@ export function Panel({ title, action, children }: { title: string; action?: Rea
   );
 }
 
-export function EmptyState({ icon: Icon, title, description, action }: { icon: LucideIcon; title: string; description: string; action?: ReactNode }) {
+export function EmptyState({
+  icon: Icon,
+  title,
+  description,
+  action,
+}: {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  action?: ReactNode;
+}) {
   return (
-    <div className="flex flex-col items-center justify-center py-12 text-center">
-      <div className="grid h-14 w-14 place-items-center rounded-2xl bg-muted text-muted-foreground mb-4">
+    <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-muted/20 py-14 px-6 text-center">
+      <div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-accent/10 text-accent">
         <Icon className="h-7 w-7" />
       </div>
-      <h3 className="text-sm font-semibold text-foreground">{title}</h3>
-      <p className="mt-1 max-w-xs text-sm text-muted-foreground">{description}</p>
-      {action && <div className="mt-4">{action}</div>}
+      <h3 className="text-base font-semibold text-foreground">{title}</h3>
+      <p className="mt-2 max-w-sm text-sm text-muted-foreground">{description}</p>
+      {action && <div className="mt-5">{action}</div>}
     </div>
   );
 }

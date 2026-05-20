@@ -15,9 +15,9 @@ import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
+    <div className="page-mesh flex min-h-screen items-center justify-center px-4">
+      <div className="max-w-md text-center animate-in fade-in duration-500">
+        <h1 className="text-7xl font-bold tracking-tight text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
@@ -70,43 +70,39 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
-  {
-    head: () => ({
-      meta: [
-        { charSet: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { title: "Campus OS" },
-        {
-          name: "description",
-          content:
-            "Unified school operations for admins, students, and teachers.",
-        },
-        { name: "author", content: "Campus OS" },
-        { property: "og:title", content: "Campus OS — School Management" },
-        {
-          property: "og:description",
-          content:
-            "Unified school operations for admins, students, and teachers.",
-        },
-        { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary" },
-        { name: "twitter:site", content: "@CampusOS" },
-      ],
-      links: [
-        { rel: "stylesheet", href: appCss },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
-        },
-      ],
-    }),
-    shellComponent: RootShell,
-    component: RootComponent,
-    notFoundComponent: NotFoundComponent,
-    errorComponent: ErrorComponent,
-  }
-);
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  head: () => ({
+    meta: [
+      { charSet: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { title: "Campus OS" },
+      {
+        name: "description",
+        content: "Unified school operations for admins, students, and teachers.",
+      },
+      { name: "author", content: "Campus OS" },
+      { property: "og:title", content: "Campus OS — School Management" },
+      {
+        property: "og:description",
+        content: "Unified school operations for admins, students, and teachers.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:site", content: "@CampusOS" },
+    ],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
+      },
+    ],
+  }),
+  shellComponent: RootShell,
+  component: RootComponent,
+  notFoundComponent: NotFoundComponent,
+  errorComponent: ErrorComponent,
+});
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
@@ -114,7 +110,10 @@ function RootShell({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+      <body
+        className="antialiased"
+        style={{ fontFamily: "'Inter', system-ui, sans-serif" }}
+      >
         {children}
         <Scripts />
       </body>
