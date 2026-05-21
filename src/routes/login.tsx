@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth, getRolePath } from "@/lib/auth-context";
 import { toast } from "sonner";
-import { Eye, EyeOff, GraduationCap, Lock, Mail, Shield, BookOpen } from "lucide-react";
+import { Eye, EyeOff, GraduationCap, Lock, Mail, Shield, BookOpen, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/login")({
@@ -19,6 +19,7 @@ const quickRoles = [
   { email: "admin@school.com", label: "Admin", icon: Shield },
   { email: "teacher@school.com", label: "Teacher", icon: BookOpen },
   { email: "student@school.com", label: "Student", icon: GraduationCap },
+  { email: "parent@school.com", label: "Parent", icon: Users },
 ];
 
 function LoginPage() {
@@ -39,7 +40,7 @@ function LoginPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
-
+ 
     setTimeout(() => {
       const result = login(email, password);
       setLoading(false);
@@ -49,7 +50,9 @@ function LoginPage() {
           ? "admin"
           : email.includes("teacher")
             ? "teacher"
-            : "student";
+            : email.includes("parent")
+              ? "parent"
+              : "student";
         navigate({ to: getRolePath(role) });
       } else {
         setError(result.error || "Login failed");
@@ -186,7 +189,7 @@ function LoginPage() {
                 </span>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-2 xs:grid-cols-3 sm:grid-cols-3">
+            <div className="grid grid-cols-2 gap-2 xs:grid-cols-4 sm:grid-cols-4">
               {quickRoles.map((q) => (
                 <button
                   key={q.email}

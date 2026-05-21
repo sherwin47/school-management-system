@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
 
-export type UserRole = "admin" | "teacher" | "student";
+export type UserRole = "admin" | "teacher" | "student" | "parent";
 
 export interface AuthUser {
   email: string;
@@ -48,6 +48,16 @@ const MOCK_ACCOUNTS: Record<string, { password: string; user: AuthUser }> = {
       role: "student",
       initials: "AS",
       sub: "Grade 10 · A",
+    },
+  },
+  "parent@school.com": {
+    password: "123",
+    user: {
+      email: "parent@school.com",
+      name: "Ramesh Sharma",
+      role: "parent",
+      initials: "RS",
+      sub: "Parent of Aarav & Ananya",
     },
   },
 };

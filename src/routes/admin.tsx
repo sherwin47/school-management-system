@@ -13,6 +13,10 @@ import {
   MessageSquare,
   BarChart3,
   Brain,
+  Package,
+  Utensils,
+  Activity,
+  Settings,
 } from "lucide-react";
 import { ModuleShell, type NavGroup } from "@/components/module-shell";
 import { useAuth } from "@/lib/auth-context";
@@ -47,6 +51,9 @@ const groups: NavGroup[] = [
       { to: "/admin/hostel", label: "Hostel", icon: Building2 },
       { to: "/admin/library", label: "Library", icon: Library },
       { to: "/admin/transport", label: "Transport", icon: Bus },
+      { to: "/admin/inventory", label: "Inventory", icon: Package },
+      { to: "/admin/canteen", label: "Canteen & Mess", icon: Utensils },
+      { to: "/admin/health", label: "Health Clinic", icon: Activity },
     ],
   },
   {
@@ -54,6 +61,10 @@ const groups: NavGroup[] = [
     items: [{ to: "/admin/communications", label: "SMS · Mail · Notices", icon: MessageSquare }],
   },
   { label: "AI Hub", items: [{ to: "/admin/ai-hub", label: "AI Modules", icon: Brain }] },
+  {
+    label: "System",
+    items: [{ to: "/admin/settings", label: "Settings", icon: Settings }],
+  },
 ];
 
 export const Route = createFileRoute("/admin")({
