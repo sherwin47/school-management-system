@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { ClipboardList, Upload, CheckCircle, Clock } from "lucide-react";
 import { PageHeader, Panel, EmptyState } from "@/components/module-shell";
 import { useStore, genId } from "@/lib/store";
+import { DEMO_STUDENT_ID } from "@/lib/demo-ids";
 
 export const Route = createFileRoute("/student/assignments")({ component: Page });
 
@@ -19,7 +20,7 @@ function Page() {
         submission: {
           id: genId(),
           studentName: "Aarav Sharma",
-          studentId: "s1",
+          studentId: DEMO_STUDENT_ID,
           submittedAt: new Date().toISOString().split("T")[0],
           files: ["homework.pdf"],
           score: null,
@@ -36,7 +37,7 @@ function Page() {
       <PageHeader title="Assignments" subtitle="View, submit, and track your homework" />
       <div className="space-y-4">
         {myAssignments.map((a) => {
-          const mySub = a.submissions.find((s) => s.studentId === "s1");
+          const mySub = a.submissions.find((s) => s.studentId === DEMO_STUDENT_ID);
           return (
             <div key={a.id} className="rounded-xl border border-border bg-card p-5 shadow-sm">
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">

@@ -46,10 +46,16 @@ export function ModuleShell({ brand, roleLabel, groups, children }: ModuleShellP
     return matches.reduce((best, to) => (to.length > best.length ? to : best), matches[0]!);
   }, [allNavTos, pathname]);
 
-  const handleSignOut = () => {
-    logout();
-    toast.success("Signed out", { description: "You have been signed out successfully." });
-    navigate({ to: "/login" });
+  const handleSignOut = async () => {
+    try {
+      await logout();
+      toast.success("Signed out", { description: "You have been signed out successfully." });
+      navigate({ to: "/login" });
+    } catch {
+      toast.error("Sign out failed", {
+        description: "Could not end your session. Please try again.",
+      });
+    }
   };
 
   const displayUser = user ?? { name: "Guest", sub: "", initials: "G" };

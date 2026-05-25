@@ -1,9 +1,20 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth, getRolePath } from "@/lib/auth-context";
 import { toast } from "sonner";
-import { Eye, EyeOff, GraduationCap, Lock, Mail, Shield, BookOpen, Users } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  GraduationCap,
+  Lock,
+  Mail,
+  Shield,
+  BookOpen,
+  Users,
+  Sparkles,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -23,7 +34,7 @@ const quickRoles = [
 ];
 
 function LoginPage() {
-  const { login, isAuthenticated, user } = useAuth();
+  const { login, isAuthenticated, user, authLoading } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,34 +42,53 @@ function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (!authLoading && isAuthenticated && user) {
+      navigate({ to: getRolePath(user.role) });
+    }
+  }, [authLoading, isAuthenticated, user, navigate]);
+
+  if (authLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background p-6">
+        <div className="w-full max-w-md space-y-4">
+          <Skeleton className="h-10 w-48" />
+          <Skeleton className="h-4 w-64" />
+          <Skeleton className="mt-6 h-11 w-full" />
+          <Skeleton className="h-11 w-full" />
+          <Skeleton className="h-11 w-full" />
+        </div>
+      </div>
+    );
+  }
+
   if (isAuthenticated && user) {
-    navigate({ to: getRolePath(user.role) });
     return null;
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
- 
-    setTimeout(() => {
-      const result = login(email, password);
-      setLoading(false);
-      if (result.success) {
+
+    try {
+      const result = await login(email, password);
+      if (result.success && result.user) {
         toast.success("Welcome back!", { description: "Signed in successfully." });
-        const role = email.includes("admin")
-          ? "admin"
-          : email.includes("teacher")
-            ? "teacher"
-            : email.includes("parent")
-              ? "parent"
-              : "student";
-        navigate({ to: getRolePath(role) });
+        navigate({ to: getRolePath(result.user.role) });
+      } else if (result.success) {
+        toast.success("Welcome back!", { description: "Signed in successfully." });
       } else {
         setError(result.error || "Login failed");
         toast.error("Sign in failed", { description: result.error });
       }
-    }, 400);
+    } catch {
+      const message = "Unable to reach the authentication service. Check your connection.";
+      setError(message);
+      toast.error("Sign in failed", { description: message });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const quickLogin = (qEmail: string) => {
@@ -114,7 +144,7 @@ function LoginPage() {
 
           <h2 className="text-2xl font-bold tracking-tight text-foreground">Sign in</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Enter your credentials to access the platform
+            Demo mode — quick access password: <span className="font-medium text-foreground">123</span>
           </p>
 
           {error && (
@@ -140,7 +170,9 @@ function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@school.com"
                   required
-                  className="h-11 w-full rounded-lg border border-border bg-card pl-10 pr-4 text-sm shadow-sm outline-none transition-all focus:border-accent focus:ring-2 focus:ring-accent/20"
+                  autoComplete="email"
+                  disabled={loading}
+                  className="h-11 w-full rounded-lg border border-border bg-card pl-10 pr-4 text-sm shadow-sm outline-none transition-all focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
                 />
               </div>
             </div>
@@ -157,7 +189,9 @@ function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="h-11 w-full rounded-lg border border-border bg-card pl-10 pr-12 text-sm shadow-sm outline-none transition-all focus:border-accent focus:ring-2 focus:ring-accent/20"
+                  autoComplete="current-password"
+                  disabled={loading}
+                  className="h-11 w-full rounded-lg border border-border bg-card pl-10 pr-12 text-sm shadow-sm outline-none transition-all focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60"
                 />
                 <button
                   type="button"
@@ -185,7 +219,7 @@ function LoginPage() {
               </div>
               <div className="relative flex justify-center">
                 <span className="bg-background px-3 text-xs text-muted-foreground">
-                  Quick access (demo)
+                  Quick fill (demo emails)
                 </span>
               </div>
             </div>
@@ -195,13 +229,37 @@ function LoginPage() {
                   key={q.email}
                   type="button"
                   onClick={() => quickLogin(q.email)}
-                  className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 text-sm shadow-sm transition-all hover:border-accent/40 hover:bg-accent/5 active:scale-[0.98]"
+                  disabled={loading}
+                  className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 text-sm shadow-sm transition-all hover:border-accent/40 hover:bg-accent/5 active:scale-[0.98] disabled:opacity-60 cursor-pointer"
                 >
                   <q.icon className="h-5 w-5 text-accent" />
                   <span className="font-medium text-foreground">{q.label}</span>
                   <span className="text-[10px] text-muted-foreground">password: 123</span>
                 </button>
               ))}
+            </div>
+
+            {/* Stands out as a premium control access shortcut */}
+            <div className="mt-3.5 space-y-2">
+              <button
+                type="button"
+                onClick={() => navigate({ to: "/super-admin" })}
+                disabled={loading}
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-rose-500/25 bg-gradient-to-r from-rose-500/10 via-rose-500/5 to-indigo-500/10 p-3 text-xs font-bold text-rose-500 shadow-sm transition-all hover:border-rose-500/50 hover:bg-rose-500/15 active:scale-[0.99] cursor-pointer"
+              >
+                <Shield className="h-4.5 w-4.5 text-rose-500 animate-pulse" />
+                <span>✨ Launch Super Admin Control Center</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => navigate({ to: "/register" })}
+                disabled={loading}
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-indigo-500/25 bg-gradient-to-r from-indigo-500/10 via-indigo-500/5 to-pink-500/10 p-3 text-xs font-bold text-indigo-500 shadow-sm transition-all hover:border-indigo-500/50 hover:bg-indigo-500/15 active:scale-[0.99] cursor-pointer"
+              >
+                <Sparkles className="h-4.5 w-4.5 text-indigo-500 animate-pulse" />
+                <span>📝 Enrolls Portal / Register Account</span>
+              </button>
             </div>
           </div>
         </div>

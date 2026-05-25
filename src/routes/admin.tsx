@@ -19,7 +19,7 @@ import {
   Settings,
 } from "lucide-react";
 import { ModuleShell, type NavGroup } from "@/components/module-shell";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth, getRolePath, isAdminPortalRole } from "@/lib/auth-context";
 
 const groups: NavGroup[] = [
   {
@@ -78,10 +78,10 @@ function AdminLayout() {
 
   useEffect(() => {
     if (!isAuthenticated) navigate({ to: "/login" });
-    else if (user?.role !== "admin") navigate({ to: `/${user?.role}` });
+    else if (user && !isAdminPortalRole(user.role)) navigate({ to: getRolePath(user.role) });
   }, [isAuthenticated, user, navigate]);
 
-  if (!isAuthenticated || user?.role !== "admin") return null;
+  if (!isAuthenticated || !user || !isAdminPortalRole(user.role)) return null;
 
   return (
     <ModuleShell brand="Campus OS" roleLabel="Administrator" groups={groups}>

@@ -10,12 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeacherRouteImport } from './routes/teacher'
+import { Route as SuperAdminRouteImport } from './routes/super-admin'
 import { Route as StudentRouteImport } from './routes/student'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ParentRouteImport } from './routes/parent'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeacherIndexRouteImport } from './routes/teacher.index'
+import { Route as SuperAdminIndexRouteImport } from './routes/super-admin.index'
 import { Route as StudentIndexRouteImport } from './routes/student.index'
 import { Route as ParentIndexRouteImport } from './routes/parent.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -32,6 +35,9 @@ import { Route as TeacherExamsRouteImport } from './routes/teacher.exams'
 import { Route as TeacherAttendanceRouteImport } from './routes/teacher.attendance'
 import { Route as TeacherAssignmentsRouteImport } from './routes/teacher.assignments'
 import { Route as TeacherAiHubRouteImport } from './routes/teacher.ai-hub'
+import { Route as SuperAdminHelpdeskRouteImport } from './routes/super-admin.helpdesk'
+import { Route as SuperAdminDirectoryRouteImport } from './routes/super-admin.directory'
+import { Route as SuperAdminConfigRouteImport } from './routes/super-admin.config'
 import { Route as StudentTransportRouteImport } from './routes/student.transport'
 import { Route as StudentTimetableRouteImport } from './routes/student.timetable'
 import { Route as StudentSyllabusRouteImport } from './routes/student.syllabus'
@@ -70,9 +76,19 @@ const TeacherRoute = TeacherRouteImport.update({
   path: '/teacher',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuperAdminRoute = SuperAdminRouteImport.update({
+  id: '/super-admin',
+  path: '/super-admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudentRoute = StudentRouteImport.update({
   id: '/student',
   path: '/student',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ParentRoute = ParentRouteImport.update({
@@ -99,6 +115,11 @@ const TeacherIndexRoute = TeacherIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => TeacherRoute,
+} as any)
+const SuperAdminIndexRoute = SuperAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SuperAdminRoute,
 } as any)
 const StudentIndexRoute = StudentIndexRouteImport.update({
   id: '/',
@@ -179,6 +200,21 @@ const TeacherAiHubRoute = TeacherAiHubRouteImport.update({
   id: '/ai-hub',
   path: '/ai-hub',
   getParentRoute: () => TeacherRoute,
+} as any)
+const SuperAdminHelpdeskRoute = SuperAdminHelpdeskRouteImport.update({
+  id: '/helpdesk',
+  path: '/helpdesk',
+  getParentRoute: () => SuperAdminRoute,
+} as any)
+const SuperAdminDirectoryRoute = SuperAdminDirectoryRouteImport.update({
+  id: '/directory',
+  path: '/directory',
+  getParentRoute: () => SuperAdminRoute,
+} as any)
+const SuperAdminConfigRoute = SuperAdminConfigRouteImport.update({
+  id: '/config',
+  path: '/config',
+  getParentRoute: () => SuperAdminRoute,
 } as any)
 const StudentTransportRoute = StudentTransportRouteImport.update({
   id: '/transport',
@@ -346,7 +382,9 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
   '/parent': typeof ParentRouteWithChildren
+  '/register': typeof RegisterRoute
   '/student': typeof StudentRouteWithChildren
+  '/super-admin': typeof SuperAdminRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/admin/academics': typeof AdminAcademicsRoute
   '/admin/ai-hub': typeof AdminAiHubRoute
@@ -380,6 +418,9 @@ export interface FileRoutesByFullPath {
   '/student/syllabus': typeof StudentSyllabusRoute
   '/student/timetable': typeof StudentTimetableRoute
   '/student/transport': typeof StudentTransportRoute
+  '/super-admin/config': typeof SuperAdminConfigRoute
+  '/super-admin/directory': typeof SuperAdminDirectoryRoute
+  '/super-admin/helpdesk': typeof SuperAdminHelpdeskRoute
   '/teacher/ai-hub': typeof TeacherAiHubRoute
   '/teacher/assignments': typeof TeacherAssignmentsRoute
   '/teacher/attendance': typeof TeacherAttendanceRoute
@@ -396,11 +437,13 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/parent/': typeof ParentIndexRoute
   '/student/': typeof StudentIndexRoute
+  '/super-admin/': typeof SuperAdminIndexRoute
   '/teacher/': typeof TeacherIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/admin/academics': typeof AdminAcademicsRoute
   '/admin/ai-hub': typeof AdminAiHubRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
@@ -433,6 +476,9 @@ export interface FileRoutesByTo {
   '/student/syllabus': typeof StudentSyllabusRoute
   '/student/timetable': typeof StudentTimetableRoute
   '/student/transport': typeof StudentTransportRoute
+  '/super-admin/config': typeof SuperAdminConfigRoute
+  '/super-admin/directory': typeof SuperAdminDirectoryRoute
+  '/super-admin/helpdesk': typeof SuperAdminHelpdeskRoute
   '/teacher/ai-hub': typeof TeacherAiHubRoute
   '/teacher/assignments': typeof TeacherAssignmentsRoute
   '/teacher/attendance': typeof TeacherAttendanceRoute
@@ -449,6 +495,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/parent': typeof ParentIndexRoute
   '/student': typeof StudentIndexRoute
+  '/super-admin': typeof SuperAdminIndexRoute
   '/teacher': typeof TeacherIndexRoute
 }
 export interface FileRoutesById {
@@ -457,7 +504,9 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
   '/parent': typeof ParentRouteWithChildren
+  '/register': typeof RegisterRoute
   '/student': typeof StudentRouteWithChildren
+  '/super-admin': typeof SuperAdminRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/admin/academics': typeof AdminAcademicsRoute
   '/admin/ai-hub': typeof AdminAiHubRoute
@@ -491,6 +540,9 @@ export interface FileRoutesById {
   '/student/syllabus': typeof StudentSyllabusRoute
   '/student/timetable': typeof StudentTimetableRoute
   '/student/transport': typeof StudentTransportRoute
+  '/super-admin/config': typeof SuperAdminConfigRoute
+  '/super-admin/directory': typeof SuperAdminDirectoryRoute
+  '/super-admin/helpdesk': typeof SuperAdminHelpdeskRoute
   '/teacher/ai-hub': typeof TeacherAiHubRoute
   '/teacher/assignments': typeof TeacherAssignmentsRoute
   '/teacher/attendance': typeof TeacherAttendanceRoute
@@ -507,6 +559,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/parent/': typeof ParentIndexRoute
   '/student/': typeof StudentIndexRoute
+  '/super-admin/': typeof SuperAdminIndexRoute
   '/teacher/': typeof TeacherIndexRoute
 }
 export interface FileRouteTypes {
@@ -516,7 +569,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/parent'
+    | '/register'
     | '/student'
+    | '/super-admin'
     | '/teacher'
     | '/admin/academics'
     | '/admin/ai-hub'
@@ -550,6 +605,9 @@ export interface FileRouteTypes {
     | '/student/syllabus'
     | '/student/timetable'
     | '/student/transport'
+    | '/super-admin/config'
+    | '/super-admin/directory'
+    | '/super-admin/helpdesk'
     | '/teacher/ai-hub'
     | '/teacher/assignments'
     | '/teacher/attendance'
@@ -566,11 +624,13 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/parent/'
     | '/student/'
+    | '/super-admin/'
     | '/teacher/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
+    | '/register'
     | '/admin/academics'
     | '/admin/ai-hub'
     | '/admin/analytics'
@@ -603,6 +663,9 @@ export interface FileRouteTypes {
     | '/student/syllabus'
     | '/student/timetable'
     | '/student/transport'
+    | '/super-admin/config'
+    | '/super-admin/directory'
+    | '/super-admin/helpdesk'
     | '/teacher/ai-hub'
     | '/teacher/assignments'
     | '/teacher/attendance'
@@ -619,6 +682,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/parent'
     | '/student'
+    | '/super-admin'
     | '/teacher'
   id:
     | '__root__'
@@ -626,7 +690,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/login'
     | '/parent'
+    | '/register'
     | '/student'
+    | '/super-admin'
     | '/teacher'
     | '/admin/academics'
     | '/admin/ai-hub'
@@ -660,6 +726,9 @@ export interface FileRouteTypes {
     | '/student/syllabus'
     | '/student/timetable'
     | '/student/transport'
+    | '/super-admin/config'
+    | '/super-admin/directory'
+    | '/super-admin/helpdesk'
     | '/teacher/ai-hub'
     | '/teacher/assignments'
     | '/teacher/attendance'
@@ -676,6 +745,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/parent/'
     | '/student/'
+    | '/super-admin/'
     | '/teacher/'
   fileRoutesById: FileRoutesById
 }
@@ -684,7 +754,9 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   LoginRoute: typeof LoginRoute
   ParentRoute: typeof ParentRouteWithChildren
+  RegisterRoute: typeof RegisterRoute
   StudentRoute: typeof StudentRouteWithChildren
+  SuperAdminRoute: typeof SuperAdminRouteWithChildren
   TeacherRoute: typeof TeacherRouteWithChildren
 }
 
@@ -697,11 +769,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/super-admin': {
+      id: '/super-admin'
+      path: '/super-admin'
+      fullPath: '/super-admin'
+      preLoaderRoute: typeof SuperAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/student': {
       id: '/student'
       path: '/student'
       fullPath: '/student'
       preLoaderRoute: typeof StudentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/parent': {
@@ -738,6 +824,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/teacher/'
       preLoaderRoute: typeof TeacherIndexRouteImport
       parentRoute: typeof TeacherRoute
+    }
+    '/super-admin/': {
+      id: '/super-admin/'
+      path: '/'
+      fullPath: '/super-admin/'
+      preLoaderRoute: typeof SuperAdminIndexRouteImport
+      parentRoute: typeof SuperAdminRoute
     }
     '/student/': {
       id: '/student/'
@@ -850,6 +943,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/teacher/ai-hub'
       preLoaderRoute: typeof TeacherAiHubRouteImport
       parentRoute: typeof TeacherRoute
+    }
+    '/super-admin/helpdesk': {
+      id: '/super-admin/helpdesk'
+      path: '/helpdesk'
+      fullPath: '/super-admin/helpdesk'
+      preLoaderRoute: typeof SuperAdminHelpdeskRouteImport
+      parentRoute: typeof SuperAdminRoute
+    }
+    '/super-admin/directory': {
+      id: '/super-admin/directory'
+      path: '/directory'
+      fullPath: '/super-admin/directory'
+      preLoaderRoute: typeof SuperAdminDirectoryRouteImport
+      parentRoute: typeof SuperAdminRoute
+    }
+    '/super-admin/config': {
+      id: '/super-admin/config'
+      path: '/config'
+      fullPath: '/super-admin/config'
+      preLoaderRoute: typeof SuperAdminConfigRouteImport
+      parentRoute: typeof SuperAdminRoute
     }
     '/student/transport': {
       id: '/student/transport'
@@ -1174,6 +1288,24 @@ const StudentRouteChildren: StudentRouteChildren = {
 const StudentRouteWithChildren =
   StudentRoute._addFileChildren(StudentRouteChildren)
 
+interface SuperAdminRouteChildren {
+  SuperAdminConfigRoute: typeof SuperAdminConfigRoute
+  SuperAdminDirectoryRoute: typeof SuperAdminDirectoryRoute
+  SuperAdminHelpdeskRoute: typeof SuperAdminHelpdeskRoute
+  SuperAdminIndexRoute: typeof SuperAdminIndexRoute
+}
+
+const SuperAdminRouteChildren: SuperAdminRouteChildren = {
+  SuperAdminConfigRoute: SuperAdminConfigRoute,
+  SuperAdminDirectoryRoute: SuperAdminDirectoryRoute,
+  SuperAdminHelpdeskRoute: SuperAdminHelpdeskRoute,
+  SuperAdminIndexRoute: SuperAdminIndexRoute,
+}
+
+const SuperAdminRouteWithChildren = SuperAdminRoute._addFileChildren(
+  SuperAdminRouteChildren,
+)
+
 interface TeacherRouteChildren {
   TeacherAiHubRoute: typeof TeacherAiHubRoute
   TeacherAssignmentsRoute: typeof TeacherAssignmentsRoute
@@ -1216,7 +1348,9 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   LoginRoute: LoginRoute,
   ParentRoute: ParentRouteWithChildren,
+  RegisterRoute: RegisterRoute,
   StudentRoute: StudentRouteWithChildren,
+  SuperAdminRoute: SuperAdminRouteWithChildren,
   TeacherRoute: TeacherRouteWithChildren,
 }
 export const routeTree = rootRouteImport

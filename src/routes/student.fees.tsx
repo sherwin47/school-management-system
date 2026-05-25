@@ -4,13 +4,14 @@ import { toast } from "sonner";
 import { Wallet, CheckCircle, CreditCard } from "lucide-react";
 import { PageHeader, Panel, StatCard } from "@/components/module-shell";
 import { useStore, genId } from "@/lib/store";
+import { DEMO_STUDENT_ID } from "@/lib/demo-ids";
 
 export const Route = createFileRoute("/student/fees")({ component: Page });
 
 function Page() {
   const { store, dispatch } = useStore();
-  const myFees = store.feeRecords.filter((f) => f.studentId === "s1");
-  const myPayments = store.paymentTransactions.filter((p) => p.studentId === "s1");
+  const myFees = store.feeRecords.filter((f) => f.studentId === DEMO_STUDENT_ID);
+  const myPayments = store.paymentTransactions.filter((p) => p.studentId === DEMO_STUDENT_ID);
   const totalDue = myFees.reduce((a, f) => a + f.due, 0);
   const totalPaid = myFees.reduce((a, f) => a + f.paid, 0);
   const [paying, setPaying] = useState(false);
@@ -24,7 +25,7 @@ function Page() {
         type: "ADD_PAYMENT",
         payload: {
           id: genId(),
-          studentId: "s1",
+          studentId: DEMO_STUDENT_ID,
           studentName: "Aarav Sharma",
           amount,
           date: new Date().toISOString().split("T")[0],

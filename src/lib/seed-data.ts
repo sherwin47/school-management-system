@@ -21,6 +21,14 @@ import type {
   SyllabusModule,
   StudyMaterial,
 } from "./store";
+import { DEMO_IDS } from "./demo-ids";
+
+const S = DEMO_IDS.student;
+const HR = DEMO_IDS.hostelRoom;
+const LB = DEMO_IDS.libraryBook;
+const TR = DEMO_IDS.transportRoute;
+const EX = DEMO_IDS.exam;
+const INV = DEMO_IDS.invoice;
 
 export function getInitialStore() {
   return {
@@ -51,7 +59,7 @@ export function getInitialStore() {
 
 const seedStudents: Student[] = [
   {
-    id: "s1",
+    id: S.aarav,
     name: "Aarav Sharma",
     grade: "10",
     section: "A",
@@ -66,7 +74,7 @@ const seedStudents: Student[] = [
     status: "active",
   },
   {
-    id: "s2",
+    id: S.diya,
     name: "Diya Patel",
     grade: "10",
     section: "A",
@@ -81,7 +89,7 @@ const seedStudents: Student[] = [
     status: "active",
   },
   {
-    id: "s3",
+    id: S.rohan,
     name: "Rohan Verma",
     grade: "10",
     section: "B",
@@ -96,7 +104,7 @@ const seedStudents: Student[] = [
     status: "active",
   },
   {
-    id: "s4",
+    id: S.ananya,
     name: "Ananya Singh",
     grade: "9",
     section: "A",
@@ -111,7 +119,7 @@ const seedStudents: Student[] = [
     status: "active",
   },
   {
-    id: "s5",
+    id: S.kabir,
     name: "Kabir Mehta",
     grade: "9",
     section: "B",
@@ -126,7 +134,7 @@ const seedStudents: Student[] = [
     status: "active",
   },
   {
-    id: "s6",
+    id: S.ishita,
     name: "Ishita Nair",
     grade: "10",
     section: "C",
@@ -141,7 +149,7 @@ const seedStudents: Student[] = [
     status: "active",
   },
   {
-    id: "s7",
+    id: S.vivaan,
     name: "Vivaan Joshi",
     grade: "9",
     section: "A",
@@ -156,7 +164,7 @@ const seedStudents: Student[] = [
     status: "active",
   },
   {
-    id: "s8",
+    id: S.myra,
     name: "Myra Kulkarni",
     grade: "10",
     section: "B",
@@ -309,8 +317,8 @@ const seedLeaves: LeaveRequest[] = [
 
 const seedFees: FeeRecord[] = [
   {
-    id: "f1",
-    studentId: "s1",
+    id: INV.aaravTuition,
+    studentId: S.aarav,
     studentName: "Aarav Sharma",
     grade: "10",
     category: "Tuition",
@@ -321,8 +329,8 @@ const seedFees: FeeRecord[] = [
     status: "partial",
   },
   {
-    id: "f2",
-    studentId: "s2",
+    id: INV.diyaTuition,
+    studentId: S.diya,
     studentName: "Diya Patel",
     grade: "10",
     category: "Tuition",
@@ -333,8 +341,8 @@ const seedFees: FeeRecord[] = [
     status: "paid",
   },
   {
-    id: "f3",
-    studentId: "s3",
+    id: INV.rohanTuition,
+    studentId: S.rohan,
     studentName: "Rohan Verma",
     grade: "10",
     category: "Tuition",
@@ -345,8 +353,8 @@ const seedFees: FeeRecord[] = [
     status: "overdue",
   },
   {
-    id: "f4",
-    studentId: "s4",
+    id: INV.ananyaTuition,
+    studentId: S.ananya,
     studentName: "Ananya Singh",
     grade: "9",
     category: "Tuition",
@@ -357,8 +365,8 @@ const seedFees: FeeRecord[] = [
     status: "partial",
   },
   {
-    id: "f5",
-    studentId: "s5",
+    id: INV.kabirTuition,
+    studentId: S.kabir,
     studentName: "Kabir Mehta",
     grade: "9",
     category: "Tuition",
@@ -369,8 +377,8 @@ const seedFees: FeeRecord[] = [
     status: "overdue",
   },
   {
-    id: "f6",
-    studentId: "s7",
+    id: INV.vivaanTuition,
+    studentId: S.vivaan,
     studentName: "Vivaan Joshi",
     grade: "9",
     category: "Tuition",
@@ -422,34 +430,34 @@ const seedFeeCategories: FeeCategory[] = [
 
 const seedRooms: HostelRoom[] = [
   {
-    id: "r1",
+    id: HR.a101,
     block: "A",
     roomNo: "101",
     capacity: 4,
     occupied: 3,
-    students: ["s1", "s3", "s5"],
+    students: [S.aarav, S.rohan, S.kabir],
     status: "available",
   },
   {
-    id: "r2",
+    id: HR.a102,
     block: "A",
     roomNo: "102",
     capacity: 4,
     occupied: 4,
-    students: ["s2", "s4", "s6", "s8"],
+    students: [S.diya, S.ananya, S.ishita, S.myra],
     status: "full",
   },
   {
-    id: "r3",
+    id: HR.b201,
     block: "B",
     roomNo: "201",
     capacity: 3,
     occupied: 2,
-    students: ["s7"],
+    students: [S.vivaan],
     status: "available",
   },
   {
-    id: "r4",
+    id: HR.b202,
     block: "B",
     roomNo: "202",
     capacity: 3,
@@ -457,9 +465,9 @@ const seedRooms: HostelRoom[] = [
     students: [],
     status: "maintenance",
   },
-  { id: "r5", block: "C", roomNo: "301", capacity: 4, occupied: 4, students: [], status: "full" },
+  { id: HR.c301, block: "C", roomNo: "301", capacity: 4, occupied: 4, students: [], status: "full" },
   {
-    id: "r6",
+    id: HR.c302,
     block: "C",
     roomNo: "302",
     capacity: 4,
@@ -524,7 +532,7 @@ const seedVisitors: HostelVisitor[] = [
 
 const seedBooks: LibraryBook[] = [
   {
-    id: "b1",
+    id: LB.calculus,
     title: "Calculus: Early Transcendentals",
     author: "James Stewart",
     isbn: "978-1285741550",
@@ -534,7 +542,7 @@ const seedBooks: LibraryBook[] = [
     shelf: "M-01",
   },
   {
-    id: "b2",
+    id: LB.physics,
     title: "Concepts of Physics Vol. 1",
     author: "H.C. Verma",
     isbn: "978-8177091878",
@@ -544,7 +552,7 @@ const seedBooks: LibraryBook[] = [
     shelf: "P-01",
   },
   {
-    id: "b3",
+    id: LB.organicChem,
     title: "Organic Chemistry",
     author: "Morrison & Boyd",
     isbn: "978-0136436690",
@@ -554,7 +562,7 @@ const seedBooks: LibraryBook[] = [
     shelf: "C-01",
   },
   {
-    id: "b4",
+    id: LB.mockingbird,
     title: "To Kill a Mockingbird",
     author: "Harper Lee",
     isbn: "978-0061120084",
@@ -564,7 +572,7 @@ const seedBooks: LibraryBook[] = [
     shelf: "L-01",
   },
   {
-    id: "b5",
+    id: LB.briefHistory,
     title: "A Brief History of Time",
     author: "Stephen Hawking",
     isbn: "978-0553380163",
@@ -574,7 +582,7 @@ const seedBooks: LibraryBook[] = [
     shelf: "S-01",
   },
   {
-    id: "b6",
+    id: LB.gandhi,
     title: "The Story of My Experiments with Truth",
     author: "M.K. Gandhi",
     isbn: "978-8172345266",
@@ -588,7 +596,7 @@ const seedBooks: LibraryBook[] = [
 const seedCirculations: BookCirculation[] = [
   {
     id: "bc1",
-    bookId: "b1",
+    bookId: LB.calculus,
     bookTitle: "Calculus: Early Transcendentals",
     studentName: "Aarav Sharma",
     issuedDate: "2025-05-01",
@@ -598,7 +606,7 @@ const seedCirculations: BookCirculation[] = [
   },
   {
     id: "bc2",
-    bookId: "b2",
+    bookId: LB.physics,
     bookTitle: "Concepts of Physics Vol. 1",
     studentName: "Diya Patel",
     issuedDate: "2025-05-10",
@@ -608,7 +616,7 @@ const seedCirculations: BookCirculation[] = [
   },
   {
     id: "bc3",
-    bookId: "b4",
+    bookId: LB.mockingbird,
     bookTitle: "To Kill a Mockingbird",
     studentName: "Ananya Singh",
     issuedDate: "2025-05-05",
@@ -620,7 +628,7 @@ const seedCirculations: BookCirculation[] = [
 
 const seedBusRoutes: BusRoute[] = [
   {
-    id: "br1",
+    id: TR.route12,
     routeNo: "R-12",
     driver: "Suresh Kumar",
     phone: "9900110011",
@@ -637,7 +645,7 @@ const seedBusRoutes: BusRoute[] = [
     ],
   },
   {
-    id: "br2",
+    id: TR.route15,
     routeNo: "R-15",
     driver: "Manoj Patil",
     phone: "9900110022",
@@ -743,7 +751,7 @@ const seedTickets: SupportTicket[] = [
 
 const seedExams: ExamSchedule[] = [
   {
-    id: "e1",
+    id: EX.unitMath,
     name: "Pre-Final",
     subject: "Mathematics",
     grade: "10",
@@ -753,7 +761,7 @@ const seedExams: ExamSchedule[] = [
     room: "Hall-1",
   },
   {
-    id: "e2",
+    id: EX.unitPhysics,
     name: "Pre-Final",
     subject: "Physics",
     grade: "10",
@@ -763,7 +771,7 @@ const seedExams: ExamSchedule[] = [
     room: "Hall-1",
   },
   {
-    id: "e3",
+    id: EX.midtermChem,
     name: "Pre-Final",
     subject: "English",
     grade: "10",
@@ -773,7 +781,7 @@ const seedExams: ExamSchedule[] = [
     room: "Hall-2",
   },
   {
-    id: "e4",
+    id: EX.finalEnglish,
     name: "Pre-Final",
     subject: "Chemistry",
     grade: "10",
@@ -783,7 +791,7 @@ const seedExams: ExamSchedule[] = [
     room: "Lab-1",
   },
   {
-    id: "e5",
+    id: EX.boardPractical,
     name: "Unit Test 3",
     subject: "Mathematics",
     grade: "9",
@@ -912,7 +920,7 @@ const seedAssignments: Assignment[] = [
       {
         id: "sub1",
         studentName: "Aarav Sharma",
-        studentId: "s1",
+        studentId: S.aarav,
         submittedAt: "",
         files: [],
         score: null,
@@ -922,7 +930,7 @@ const seedAssignments: Assignment[] = [
       {
         id: "sub2",
         studentName: "Diya Patel",
-        studentId: "s2",
+        studentId: S.diya,
         submittedAt: "2025-05-14",
         files: ["quadratic_solutions.pdf"],
         score: 45,
@@ -957,7 +965,7 @@ const seedAssignments: Assignment[] = [
       {
         id: "sub3",
         studentName: "Aarav Sharma",
-        studentId: "s1",
+        studentId: S.aarav,
         submittedAt: "2025-05-13",
         files: ["essay_climate.pdf"],
         score: 22,
@@ -976,11 +984,11 @@ const seedAttendance: AttendanceRecord[] = [
     section: "A",
     markedBy: "Anita Iyer",
     records: [
-      { studentId: "s1", studentName: "Aarav Sharma", status: "present" },
-      { studentId: "s2", studentName: "Diya Patel", status: "present" },
-      { studentId: "s3", studentName: "Rohan Verma", status: "absent" },
-      { studentId: "s6", studentName: "Ishita Nair", status: "present" },
-      { studentId: "s8", studentName: "Myra Kulkarni", status: "late" },
+      { studentId: S.aarav, studentName: "Aarav Sharma", status: "present" },
+      { studentId: S.diya, studentName: "Diya Patel", status: "present" },
+      { studentId: S.rohan, studentName: "Rohan Verma", status: "absent" },
+      { studentId: S.ishita, studentName: "Ishita Nair", status: "present" },
+      { studentId: S.myra, studentName: "Myra Kulkarni", status: "late" },
     ],
   },
 ];
@@ -988,7 +996,7 @@ const seedAttendance: AttendanceRecord[] = [
 const seedPayments: PaymentTransaction[] = [
   {
     id: "pay1",
-    studentId: "s1",
+    studentId: S.aarav,
     studentName: "Aarav Sharma",
     amount: 15000,
     date: "2025-04-15",
@@ -999,7 +1007,7 @@ const seedPayments: PaymentTransaction[] = [
   },
   {
     id: "pay2",
-    studentId: "s1",
+    studentId: S.aarav,
     studentName: "Aarav Sharma",
     amount: 30000,
     date: "2025-03-01",
@@ -1010,7 +1018,7 @@ const seedPayments: PaymentTransaction[] = [
   },
   {
     id: "pay3",
-    studentId: "s2",
+    studentId: S.diya,
     studentName: "Diya Patel",
     amount: 57400,
     date: "2025-04-01",

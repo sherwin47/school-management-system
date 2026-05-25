@@ -8,16 +8,17 @@ export const Route = createFileRoute("/")({
 });
 
 function IndexRedirect() {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, authLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (authLoading) return;
     if (isAuthenticated && user) {
       navigate({ to: getRolePath(user.role) });
     } else {
       navigate({ to: "/login" });
     }
-  }, [isAuthenticated, user, navigate]);
+  }, [authLoading, isAuthenticated, user, navigate]);
 
   return (
     <div className="page-mesh flex min-h-screen flex-col items-center justify-center gap-6 px-4">

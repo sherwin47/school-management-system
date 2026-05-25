@@ -15,7 +15,7 @@ import {
   Brain,
 } from "lucide-react";
 import { ModuleShell, type NavGroup } from "@/components/module-shell";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth, getRolePath } from "@/lib/auth-context";
 
 const groups: NavGroup[] = [
   {
@@ -70,7 +70,7 @@ function TeacherLayout() {
 
   useEffect(() => {
     if (!isAuthenticated) navigate({ to: "/login" });
-    else if (user?.role !== "teacher") navigate({ to: `/${user?.role}` });
+    else if (user?.role !== "teacher") navigate({ to: getRolePath(user!.role) });
   }, [isAuthenticated, user, navigate]);
 
   if (!isAuthenticated || user?.role !== "teacher") return null;

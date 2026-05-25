@@ -5,13 +5,14 @@ import { User, Edit, Save } from "lucide-react";
 import { PageHeader, Panel } from "@/components/module-shell";
 import { useAuth } from "@/lib/auth-context";
 import { useStore } from "@/lib/store";
+import { DEMO_STUDENT_ID } from "@/lib/demo-ids";
 
 export const Route = createFileRoute("/student/profile")({ component: Page });
 
 function Page() {
   const { user, updateProfile } = useAuth();
   const { store } = useStore();
-  const student = store.students.find((s) => s.id === "s1");
+  const student = store.students.find((s) => s.id === DEMO_STUDENT_ID);
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({
     name: user?.name || "",

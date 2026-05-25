@@ -11,7 +11,7 @@ import {
   Volume2,
 } from "lucide-react";
 import { ModuleShell, type NavGroup } from "@/components/module-shell";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth, getRolePath } from "@/lib/auth-context";
 
 const groups: NavGroup[] = [
   {
@@ -55,7 +55,7 @@ function ParentLayout() {
     if (!isAuthenticated) {
       navigate({ to: "/login" });
     } else if (user?.role !== "parent") {
-      navigate({ to: `/${user?.role}` });
+      navigate({ to: getRolePath(user!.role) });
     }
   }, [isAuthenticated, user, navigate]);
 
