@@ -327,3 +327,95 @@ export const PaginatedResponseSchema = z.object({
 export type PaginatedResponse<T = unknown> = z.infer<typeof PaginatedResponseSchema> & {
   data: T[];
 };
+
+// ═════════════════════════════════════════════════════════════════════════════
+// Admission Schemas
+// ═════════════════════════════════════════════════════════════════════════════
+
+export const AdmissionApplicationStatusEnum = z.enum([
+  "Draft",
+  "Submitted",
+  "Under Review",
+  "Approved",
+  "Rejected",
+  "Waitlisted",
+]);
+export type AdmissionApplicationStatus = z.infer<typeof AdmissionApplicationStatusEnum>;
+
+export const DocumentTypeEnum = z.enum([
+  "Birth Certificate",
+  "Previous Marksheet",
+  "Transfer Certificate",
+  "Address Proof",
+  "Photo",
+  "Other",
+]);
+export type DocumentType = z.infer<typeof DocumentTypeEnum>;
+
+export const DocumentVerificationStatusEnum = z.enum(["Pending", "Verified", "Rejected"]);
+export type DocumentVerificationStatus = z.infer<typeof DocumentVerificationStatusEnum>;
+
+export const DocumentVerificationSchema = z.object({
+  id: z.string(),
+  documentType: DocumentTypeEnum,
+  fileName: z.string().min(1),
+  fileUrl: z.string().url(),
+  uploadedAt: z.string().datetime(),
+  verificationStatus: DocumentVerificationStatusEnum,
+  verifiedBy: z.string().optional(),
+  verifiedAt: z.string().datetime().optional(),
+  remarks: z.string().optional(),
+});
+
+export type DocumentVerification = z.infer<typeof DocumentVerificationSchema>;
+
+export const AdmissionApplicationSchema = z.object({
+  id: z.string().uuid().optional(),
+  studentName: z.string().min(1),
+  fatherName: z.string().min(1),
+  motherName: z.string().min(1),
+  dateOfBirth: z.string().date(),
+  gender: z.enum(["Male", "Female", "Other"]),
+  email: z.string().email(),
+  phone: z.string().min(10),
+  currentSchool: z.string().optional(),
+  currentGrade: z.string().min(1),
+  applyingForGrade: z.string().min(1),
+  address: z.string().min(5),
+  city: z.string().min(1),
+  state: z.string().min(1),
+  pincode: z.string().regex(/^\d{6}$/),
+  applicationStatus: AdmissionApplicationStatusEnum.default("Draft"),
+  appliedAt: z.string().datetime().optional(),
+  reviewedAt: z.string().datetime().optional(),
+  reviewedBy: z.string().optional(),
+  waitlistPosition: z.number().int().optional(),
+  rejectionReason: z.string().optional(),
+  documents: z.array(DocumentVerificationSchema).default([]),
+  admissionFeeStatus: z.enum(["Pending", "Paid", "Waived"]).default("Pending"),
+  admissionFeeAmount: z.number().nonnegative(),
+  notes: z.string().optional(),
+  parentEmail: z.string().email(),
+  parentPhone: z.string().min(10),
+  createdAt: z.string().datetime().optional(),
+  updatedAt: z.string().datetime().optional(),
+});
+
+export type AdmissionApplication = z.infer<typeof AdmissionApplicationSchema>;
+
+export const AdmissionOfferLetterSchema = z.object({
+  id: z.string().uuid().optional(),
+  applicationId: z.string().uuid(),
+  studentName: z.string().min(1),
+  admittedGrade: z.string().min(1),
+  section: z.string().optional(),
+  academicYear: z.string().min(4),
+  offerIssuedAt: z.string().datetime(),
+  offerValidUntil: z.string().date(),
+  conditions: z.array(z.string()).default([]),
+  status: z.enum(["Issued", "Accepted", "Rejected", "Expired"]),
+  acceptedAt: z.string().datetime().optional(),
+  rejectedAt: z.string().datetime().optional(),
+});
+
+export type AdmissionOfferLetter = z.infer<typeof AdmissionOfferLetterSchema>;

@@ -17,6 +17,12 @@ import {
   Utensils,
   Activity,
   Settings,
+  ShieldCheck,
+  Dumbbell,
+  Award,
+  Calendar,
+  ShieldAlert,
+  UserCheck2,
 } from "lucide-react";
 import { ModuleShell, type NavGroup } from "@/components/module-shell";
 import { useAuth, getRolePath, isAdminPortalRole } from "@/lib/auth-context";
@@ -54,6 +60,16 @@ const groups: NavGroup[] = [
       { to: "/admin/inventory", label: "Inventory", icon: Package },
       { to: "/admin/canteen", label: "Canteen & Mess", icon: Utensils },
       { to: "/admin/health", label: "Health Clinic", icon: Activity },
+    ],
+  },
+  {
+    label: "Specialist Modules",
+    items: [
+      { to: "/admin/sports", label: "Sports & Activities", icon: Dumbbell },
+      { to: "/admin/visitors", label: "Visitor Management", icon: UserCheck2 },
+      { to: "/admin/certificates", label: "Certificates & Awards", icon: Award },
+      { to: "/admin/events", label: "Events & Culture", icon: Calendar },
+      { to: "/admin/safety", label: "Safety & Emergency", icon: ShieldAlert },
     ],
   },
   {

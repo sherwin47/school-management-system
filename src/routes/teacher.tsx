@@ -13,6 +13,7 @@ import {
   CalendarDays,
   Wallet,
   Brain,
+  Video,
 } from "lucide-react";
 import { ModuleShell, type NavGroup } from "@/components/module-shell";
 import { useAuth, getRolePath } from "@/lib/auth-context";
@@ -33,6 +34,7 @@ const groups: NavGroup[] = [
       { to: "/teacher/syllabus", label: "Syllabus", icon: BookOpen },
       { to: "/teacher/assignments", label: "Assignments", icon: FileText },
       { to: "/teacher/materials", label: "Study materials", icon: FileText },
+      { to: "/teacher/live-class", label: "Live Virtual Class", icon: Video },
     ],
   },
   {

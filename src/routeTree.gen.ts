@@ -21,6 +21,7 @@ import { Route as TeacherIndexRouteImport } from './routes/teacher.index'
 import { Route as SuperAdminIndexRouteImport } from './routes/super-admin.index'
 import { Route as StudentIndexRouteImport } from './routes/student.index'
 import { Route as ParentIndexRouteImport } from './routes/parent.index'
+import { Route as DriverIndexRouteImport } from './routes/driver.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as TeacherSyllabusRouteImport } from './routes/teacher.syllabus'
 import { Route as TeacherSupportRouteImport } from './routes/teacher.support'
@@ -28,6 +29,7 @@ import { Route as TeacherReportsRouteImport } from './routes/teacher.reports'
 import { Route as TeacherProfileRouteImport } from './routes/teacher.profile'
 import { Route as TeacherMessagesRouteImport } from './routes/teacher.messages'
 import { Route as TeacherMaterialsRouteImport } from './routes/teacher.materials'
+import { Route as TeacherLiveClassRouteImport } from './routes/teacher.live-class'
 import { Route as TeacherLeaveRouteImport } from './routes/teacher.leave'
 import { Route as TeacherFeesRouteImport } from './routes/teacher.fees'
 import { Route as TeacherFeedRouteImport } from './routes/teacher.feed'
@@ -53,11 +55,15 @@ import { Route as StudentAcademicsRouteImport } from './routes/student.academics
 import { Route as ParentTransportRouteImport } from './routes/parent.transport'
 import { Route as ParentNotificationsRouteImport } from './routes/parent.notifications'
 import { Route as ParentFeesRouteImport } from './routes/parent.fees'
+import { Route as ParentAdmissionsRouteImport } from './routes/parent.admissions'
 import { Route as ParentAcademicsRouteImport } from './routes/parent.academics'
+import { Route as AdminVisitorsRouteImport } from './routes/admin.visitors'
 import { Route as AdminTransportRouteImport } from './routes/admin.transport'
 import { Route as AdminStudentsRouteImport } from './routes/admin.students'
 import { Route as AdminStaffRouteImport } from './routes/admin.staff'
+import { Route as AdminSportsRouteImport } from './routes/admin.sports'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminSafetyRouteImport } from './routes/admin.safety'
 import { Route as AdminLibraryRouteImport } from './routes/admin.library'
 import { Route as AdminInventoryRouteImport } from './routes/admin.inventory'
 import { Route as AdminHrRouteImport } from './routes/admin.hr'
@@ -65,10 +71,13 @@ import { Route as AdminHostelRouteImport } from './routes/admin.hostel'
 import { Route as AdminHealthRouteImport } from './routes/admin.health'
 import { Route as AdminFeesRouteImport } from './routes/admin.fees'
 import { Route as AdminExamsRouteImport } from './routes/admin.exams'
+import { Route as AdminEventsRouteImport } from './routes/admin.events'
 import { Route as AdminCommunicationsRouteImport } from './routes/admin.communications'
+import { Route as AdminCertificatesRouteImport } from './routes/admin.certificates'
 import { Route as AdminCanteenRouteImport } from './routes/admin.canteen'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AdminAiHubRouteImport } from './routes/admin.ai-hub'
+import { Route as AdminAdmissionsRouteImport } from './routes/admin.admissions'
 import { Route as AdminAcademicsRouteImport } from './routes/admin.academics'
 
 const TeacherRoute = TeacherRouteImport.update({
@@ -131,6 +140,11 @@ const ParentIndexRoute = ParentIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ParentRoute,
 } as any)
+const DriverIndexRoute = DriverIndexRouteImport.update({
+  id: '/driver/',
+  path: '/driver/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -164,6 +178,11 @@ const TeacherMessagesRoute = TeacherMessagesRouteImport.update({
 const TeacherMaterialsRoute = TeacherMaterialsRouteImport.update({
   id: '/materials',
   path: '/materials',
+  getParentRoute: () => TeacherRoute,
+} as any)
+const TeacherLiveClassRoute = TeacherLiveClassRouteImport.update({
+  id: '/live-class',
+  path: '/live-class',
   getParentRoute: () => TeacherRoute,
 } as any)
 const TeacherLeaveRoute = TeacherLeaveRouteImport.update({
@@ -291,10 +310,20 @@ const ParentFeesRoute = ParentFeesRouteImport.update({
   path: '/fees',
   getParentRoute: () => ParentRoute,
 } as any)
+const ParentAdmissionsRoute = ParentAdmissionsRouteImport.update({
+  id: '/admissions',
+  path: '/admissions',
+  getParentRoute: () => ParentRoute,
+} as any)
 const ParentAcademicsRoute = ParentAcademicsRouteImport.update({
   id: '/academics',
   path: '/academics',
   getParentRoute: () => ParentRoute,
+} as any)
+const AdminVisitorsRoute = AdminVisitorsRouteImport.update({
+  id: '/visitors',
+  path: '/visitors',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AdminTransportRoute = AdminTransportRouteImport.update({
   id: '/transport',
@@ -311,9 +340,19 @@ const AdminStaffRoute = AdminStaffRouteImport.update({
   path: '/staff',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSportsRoute = AdminSportsRouteImport.update({
+  id: '/sports',
+  path: '/sports',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSafetyRoute = AdminSafetyRouteImport.update({
+  id: '/safety',
+  path: '/safety',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminLibraryRoute = AdminLibraryRouteImport.update({
@@ -351,9 +390,19 @@ const AdminExamsRoute = AdminExamsRouteImport.update({
   path: '/exams',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminEventsRoute = AdminEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCommunicationsRoute = AdminCommunicationsRouteImport.update({
   id: '/communications',
   path: '/communications',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCertificatesRoute = AdminCertificatesRouteImport.update({
+  id: '/certificates',
+  path: '/certificates',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminCanteenRoute = AdminCanteenRouteImport.update({
@@ -369,6 +418,11 @@ const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
 const AdminAiHubRoute = AdminAiHubRouteImport.update({
   id: '/ai-hub',
   path: '/ai-hub',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdmissionsRoute = AdminAdmissionsRouteImport.update({
+  id: '/admissions',
+  path: '/admissions',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminAcademicsRoute = AdminAcademicsRouteImport.update({
@@ -387,10 +441,13 @@ export interface FileRoutesByFullPath {
   '/super-admin': typeof SuperAdminRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/admin/academics': typeof AdminAcademicsRoute
+  '/admin/admissions': typeof AdminAdmissionsRoute
   '/admin/ai-hub': typeof AdminAiHubRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/canteen': typeof AdminCanteenRoute
+  '/admin/certificates': typeof AdminCertificatesRoute
   '/admin/communications': typeof AdminCommunicationsRoute
+  '/admin/events': typeof AdminEventsRoute
   '/admin/exams': typeof AdminExamsRoute
   '/admin/fees': typeof AdminFeesRoute
   '/admin/health': typeof AdminHealthRoute
@@ -398,11 +455,15 @@ export interface FileRoutesByFullPath {
   '/admin/hr': typeof AdminHrRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/library': typeof AdminLibraryRoute
+  '/admin/safety': typeof AdminSafetyRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/sports': typeof AdminSportsRoute
   '/admin/staff': typeof AdminStaffRoute
   '/admin/students': typeof AdminStudentsRoute
   '/admin/transport': typeof AdminTransportRoute
+  '/admin/visitors': typeof AdminVisitorsRoute
   '/parent/academics': typeof ParentAcademicsRoute
+  '/parent/admissions': typeof ParentAdmissionsRoute
   '/parent/fees': typeof ParentFeesRoute
   '/parent/notifications': typeof ParentNotificationsRoute
   '/parent/transport': typeof ParentTransportRoute
@@ -428,6 +489,7 @@ export interface FileRoutesByFullPath {
   '/teacher/feed': typeof TeacherFeedRoute
   '/teacher/fees': typeof TeacherFeesRoute
   '/teacher/leave': typeof TeacherLeaveRoute
+  '/teacher/live-class': typeof TeacherLiveClassRoute
   '/teacher/materials': typeof TeacherMaterialsRoute
   '/teacher/messages': typeof TeacherMessagesRoute
   '/teacher/profile': typeof TeacherProfileRoute
@@ -435,6 +497,7 @@ export interface FileRoutesByFullPath {
   '/teacher/support': typeof TeacherSupportRoute
   '/teacher/syllabus': typeof TeacherSyllabusRoute
   '/admin/': typeof AdminIndexRoute
+  '/driver/': typeof DriverIndexRoute
   '/parent/': typeof ParentIndexRoute
   '/student/': typeof StudentIndexRoute
   '/super-admin/': typeof SuperAdminIndexRoute
@@ -445,10 +508,13 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/admin/academics': typeof AdminAcademicsRoute
+  '/admin/admissions': typeof AdminAdmissionsRoute
   '/admin/ai-hub': typeof AdminAiHubRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/canteen': typeof AdminCanteenRoute
+  '/admin/certificates': typeof AdminCertificatesRoute
   '/admin/communications': typeof AdminCommunicationsRoute
+  '/admin/events': typeof AdminEventsRoute
   '/admin/exams': typeof AdminExamsRoute
   '/admin/fees': typeof AdminFeesRoute
   '/admin/health': typeof AdminHealthRoute
@@ -456,11 +522,15 @@ export interface FileRoutesByTo {
   '/admin/hr': typeof AdminHrRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/library': typeof AdminLibraryRoute
+  '/admin/safety': typeof AdminSafetyRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/sports': typeof AdminSportsRoute
   '/admin/staff': typeof AdminStaffRoute
   '/admin/students': typeof AdminStudentsRoute
   '/admin/transport': typeof AdminTransportRoute
+  '/admin/visitors': typeof AdminVisitorsRoute
   '/parent/academics': typeof ParentAcademicsRoute
+  '/parent/admissions': typeof ParentAdmissionsRoute
   '/parent/fees': typeof ParentFeesRoute
   '/parent/notifications': typeof ParentNotificationsRoute
   '/parent/transport': typeof ParentTransportRoute
@@ -486,6 +556,7 @@ export interface FileRoutesByTo {
   '/teacher/feed': typeof TeacherFeedRoute
   '/teacher/fees': typeof TeacherFeesRoute
   '/teacher/leave': typeof TeacherLeaveRoute
+  '/teacher/live-class': typeof TeacherLiveClassRoute
   '/teacher/materials': typeof TeacherMaterialsRoute
   '/teacher/messages': typeof TeacherMessagesRoute
   '/teacher/profile': typeof TeacherProfileRoute
@@ -493,6 +564,7 @@ export interface FileRoutesByTo {
   '/teacher/support': typeof TeacherSupportRoute
   '/teacher/syllabus': typeof TeacherSyllabusRoute
   '/admin': typeof AdminIndexRoute
+  '/driver': typeof DriverIndexRoute
   '/parent': typeof ParentIndexRoute
   '/student': typeof StudentIndexRoute
   '/super-admin': typeof SuperAdminIndexRoute
@@ -509,10 +581,13 @@ export interface FileRoutesById {
   '/super-admin': typeof SuperAdminRouteWithChildren
   '/teacher': typeof TeacherRouteWithChildren
   '/admin/academics': typeof AdminAcademicsRoute
+  '/admin/admissions': typeof AdminAdmissionsRoute
   '/admin/ai-hub': typeof AdminAiHubRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/canteen': typeof AdminCanteenRoute
+  '/admin/certificates': typeof AdminCertificatesRoute
   '/admin/communications': typeof AdminCommunicationsRoute
+  '/admin/events': typeof AdminEventsRoute
   '/admin/exams': typeof AdminExamsRoute
   '/admin/fees': typeof AdminFeesRoute
   '/admin/health': typeof AdminHealthRoute
@@ -520,11 +595,15 @@ export interface FileRoutesById {
   '/admin/hr': typeof AdminHrRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/library': typeof AdminLibraryRoute
+  '/admin/safety': typeof AdminSafetyRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/sports': typeof AdminSportsRoute
   '/admin/staff': typeof AdminStaffRoute
   '/admin/students': typeof AdminStudentsRoute
   '/admin/transport': typeof AdminTransportRoute
+  '/admin/visitors': typeof AdminVisitorsRoute
   '/parent/academics': typeof ParentAcademicsRoute
+  '/parent/admissions': typeof ParentAdmissionsRoute
   '/parent/fees': typeof ParentFeesRoute
   '/parent/notifications': typeof ParentNotificationsRoute
   '/parent/transport': typeof ParentTransportRoute
@@ -550,6 +629,7 @@ export interface FileRoutesById {
   '/teacher/feed': typeof TeacherFeedRoute
   '/teacher/fees': typeof TeacherFeesRoute
   '/teacher/leave': typeof TeacherLeaveRoute
+  '/teacher/live-class': typeof TeacherLiveClassRoute
   '/teacher/materials': typeof TeacherMaterialsRoute
   '/teacher/messages': typeof TeacherMessagesRoute
   '/teacher/profile': typeof TeacherProfileRoute
@@ -557,6 +637,7 @@ export interface FileRoutesById {
   '/teacher/support': typeof TeacherSupportRoute
   '/teacher/syllabus': typeof TeacherSyllabusRoute
   '/admin/': typeof AdminIndexRoute
+  '/driver/': typeof DriverIndexRoute
   '/parent/': typeof ParentIndexRoute
   '/student/': typeof StudentIndexRoute
   '/super-admin/': typeof SuperAdminIndexRoute
@@ -574,10 +655,13 @@ export interface FileRouteTypes {
     | '/super-admin'
     | '/teacher'
     | '/admin/academics'
+    | '/admin/admissions'
     | '/admin/ai-hub'
     | '/admin/analytics'
     | '/admin/canteen'
+    | '/admin/certificates'
     | '/admin/communications'
+    | '/admin/events'
     | '/admin/exams'
     | '/admin/fees'
     | '/admin/health'
@@ -585,11 +669,15 @@ export interface FileRouteTypes {
     | '/admin/hr'
     | '/admin/inventory'
     | '/admin/library'
+    | '/admin/safety'
     | '/admin/settings'
+    | '/admin/sports'
     | '/admin/staff'
     | '/admin/students'
     | '/admin/transport'
+    | '/admin/visitors'
     | '/parent/academics'
+    | '/parent/admissions'
     | '/parent/fees'
     | '/parent/notifications'
     | '/parent/transport'
@@ -615,6 +703,7 @@ export interface FileRouteTypes {
     | '/teacher/feed'
     | '/teacher/fees'
     | '/teacher/leave'
+    | '/teacher/live-class'
     | '/teacher/materials'
     | '/teacher/messages'
     | '/teacher/profile'
@@ -622,6 +711,7 @@ export interface FileRouteTypes {
     | '/teacher/support'
     | '/teacher/syllabus'
     | '/admin/'
+    | '/driver/'
     | '/parent/'
     | '/student/'
     | '/super-admin/'
@@ -632,10 +722,13 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/admin/academics'
+    | '/admin/admissions'
     | '/admin/ai-hub'
     | '/admin/analytics'
     | '/admin/canteen'
+    | '/admin/certificates'
     | '/admin/communications'
+    | '/admin/events'
     | '/admin/exams'
     | '/admin/fees'
     | '/admin/health'
@@ -643,11 +736,15 @@ export interface FileRouteTypes {
     | '/admin/hr'
     | '/admin/inventory'
     | '/admin/library'
+    | '/admin/safety'
     | '/admin/settings'
+    | '/admin/sports'
     | '/admin/staff'
     | '/admin/students'
     | '/admin/transport'
+    | '/admin/visitors'
     | '/parent/academics'
+    | '/parent/admissions'
     | '/parent/fees'
     | '/parent/notifications'
     | '/parent/transport'
@@ -673,6 +770,7 @@ export interface FileRouteTypes {
     | '/teacher/feed'
     | '/teacher/fees'
     | '/teacher/leave'
+    | '/teacher/live-class'
     | '/teacher/materials'
     | '/teacher/messages'
     | '/teacher/profile'
@@ -680,6 +778,7 @@ export interface FileRouteTypes {
     | '/teacher/support'
     | '/teacher/syllabus'
     | '/admin'
+    | '/driver'
     | '/parent'
     | '/student'
     | '/super-admin'
@@ -695,10 +794,13 @@ export interface FileRouteTypes {
     | '/super-admin'
     | '/teacher'
     | '/admin/academics'
+    | '/admin/admissions'
     | '/admin/ai-hub'
     | '/admin/analytics'
     | '/admin/canteen'
+    | '/admin/certificates'
     | '/admin/communications'
+    | '/admin/events'
     | '/admin/exams'
     | '/admin/fees'
     | '/admin/health'
@@ -706,11 +808,15 @@ export interface FileRouteTypes {
     | '/admin/hr'
     | '/admin/inventory'
     | '/admin/library'
+    | '/admin/safety'
     | '/admin/settings'
+    | '/admin/sports'
     | '/admin/staff'
     | '/admin/students'
     | '/admin/transport'
+    | '/admin/visitors'
     | '/parent/academics'
+    | '/parent/admissions'
     | '/parent/fees'
     | '/parent/notifications'
     | '/parent/transport'
@@ -736,6 +842,7 @@ export interface FileRouteTypes {
     | '/teacher/feed'
     | '/teacher/fees'
     | '/teacher/leave'
+    | '/teacher/live-class'
     | '/teacher/materials'
     | '/teacher/messages'
     | '/teacher/profile'
@@ -743,6 +850,7 @@ export interface FileRouteTypes {
     | '/teacher/support'
     | '/teacher/syllabus'
     | '/admin/'
+    | '/driver/'
     | '/parent/'
     | '/student/'
     | '/super-admin/'
@@ -758,6 +866,7 @@ export interface RootRouteChildren {
   StudentRoute: typeof StudentRouteWithChildren
   SuperAdminRoute: typeof SuperAdminRouteWithChildren
   TeacherRoute: typeof TeacherRouteWithChildren
+  DriverIndexRoute: typeof DriverIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -846,6 +955,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentIndexRouteImport
       parentRoute: typeof ParentRoute
     }
+    '/driver/': {
+      id: '/driver/'
+      path: '/driver'
+      fullPath: '/driver/'
+      preLoaderRoute: typeof DriverIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -893,6 +1009,13 @@ declare module '@tanstack/react-router' {
       path: '/materials'
       fullPath: '/teacher/materials'
       preLoaderRoute: typeof TeacherMaterialsRouteImport
+      parentRoute: typeof TeacherRoute
+    }
+    '/teacher/live-class': {
+      id: '/teacher/live-class'
+      path: '/live-class'
+      fullPath: '/teacher/live-class'
+      preLoaderRoute: typeof TeacherLiveClassRouteImport
       parentRoute: typeof TeacherRoute
     }
     '/teacher/leave': {
@@ -1070,12 +1193,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentFeesRouteImport
       parentRoute: typeof ParentRoute
     }
+    '/parent/admissions': {
+      id: '/parent/admissions'
+      path: '/admissions'
+      fullPath: '/parent/admissions'
+      preLoaderRoute: typeof ParentAdmissionsRouteImport
+      parentRoute: typeof ParentRoute
+    }
     '/parent/academics': {
       id: '/parent/academics'
       path: '/academics'
       fullPath: '/parent/academics'
       preLoaderRoute: typeof ParentAcademicsRouteImport
       parentRoute: typeof ParentRoute
+    }
+    '/admin/visitors': {
+      id: '/admin/visitors'
+      path: '/visitors'
+      fullPath: '/admin/visitors'
+      preLoaderRoute: typeof AdminVisitorsRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/admin/transport': {
       id: '/admin/transport'
@@ -1098,11 +1235,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminStaffRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/sports': {
+      id: '/admin/sports'
+      path: '/sports'
+      fullPath: '/admin/sports'
+      preLoaderRoute: typeof AdminSportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/settings': {
       id: '/admin/settings'
       path: '/settings'
       fullPath: '/admin/settings'
       preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/safety': {
+      id: '/admin/safety'
+      path: '/safety'
+      fullPath: '/admin/safety'
+      preLoaderRoute: typeof AdminSafetyRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/library': {
@@ -1154,11 +1305,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminExamsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/events': {
+      id: '/admin/events'
+      path: '/events'
+      fullPath: '/admin/events'
+      preLoaderRoute: typeof AdminEventsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/communications': {
       id: '/admin/communications'
       path: '/communications'
       fullPath: '/admin/communications'
       preLoaderRoute: typeof AdminCommunicationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/certificates': {
+      id: '/admin/certificates'
+      path: '/certificates'
+      fullPath: '/admin/certificates'
+      preLoaderRoute: typeof AdminCertificatesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/canteen': {
@@ -1182,6 +1347,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAiHubRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/admissions': {
+      id: '/admin/admissions'
+      path: '/admissions'
+      fullPath: '/admin/admissions'
+      preLoaderRoute: typeof AdminAdmissionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/academics': {
       id: '/admin/academics'
       path: '/academics'
@@ -1194,10 +1366,13 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminAcademicsRoute: typeof AdminAcademicsRoute
+  AdminAdmissionsRoute: typeof AdminAdmissionsRoute
   AdminAiHubRoute: typeof AdminAiHubRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminCanteenRoute: typeof AdminCanteenRoute
+  AdminCertificatesRoute: typeof AdminCertificatesRoute
   AdminCommunicationsRoute: typeof AdminCommunicationsRoute
+  AdminEventsRoute: typeof AdminEventsRoute
   AdminExamsRoute: typeof AdminExamsRoute
   AdminFeesRoute: typeof AdminFeesRoute
   AdminHealthRoute: typeof AdminHealthRoute
@@ -1205,19 +1380,25 @@ interface AdminRouteChildren {
   AdminHrRoute: typeof AdminHrRoute
   AdminInventoryRoute: typeof AdminInventoryRoute
   AdminLibraryRoute: typeof AdminLibraryRoute
+  AdminSafetyRoute: typeof AdminSafetyRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminSportsRoute: typeof AdminSportsRoute
   AdminStaffRoute: typeof AdminStaffRoute
   AdminStudentsRoute: typeof AdminStudentsRoute
   AdminTransportRoute: typeof AdminTransportRoute
+  AdminVisitorsRoute: typeof AdminVisitorsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAcademicsRoute: AdminAcademicsRoute,
+  AdminAdmissionsRoute: AdminAdmissionsRoute,
   AdminAiHubRoute: AdminAiHubRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminCanteenRoute: AdminCanteenRoute,
+  AdminCertificatesRoute: AdminCertificatesRoute,
   AdminCommunicationsRoute: AdminCommunicationsRoute,
+  AdminEventsRoute: AdminEventsRoute,
   AdminExamsRoute: AdminExamsRoute,
   AdminFeesRoute: AdminFeesRoute,
   AdminHealthRoute: AdminHealthRoute,
@@ -1225,10 +1406,13 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminHrRoute: AdminHrRoute,
   AdminInventoryRoute: AdminInventoryRoute,
   AdminLibraryRoute: AdminLibraryRoute,
+  AdminSafetyRoute: AdminSafetyRoute,
   AdminSettingsRoute: AdminSettingsRoute,
+  AdminSportsRoute: AdminSportsRoute,
   AdminStaffRoute: AdminStaffRoute,
   AdminStudentsRoute: AdminStudentsRoute,
   AdminTransportRoute: AdminTransportRoute,
+  AdminVisitorsRoute: AdminVisitorsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
@@ -1236,6 +1420,7 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface ParentRouteChildren {
   ParentAcademicsRoute: typeof ParentAcademicsRoute
+  ParentAdmissionsRoute: typeof ParentAdmissionsRoute
   ParentFeesRoute: typeof ParentFeesRoute
   ParentNotificationsRoute: typeof ParentNotificationsRoute
   ParentTransportRoute: typeof ParentTransportRoute
@@ -1244,6 +1429,7 @@ interface ParentRouteChildren {
 
 const ParentRouteChildren: ParentRouteChildren = {
   ParentAcademicsRoute: ParentAcademicsRoute,
+  ParentAdmissionsRoute: ParentAdmissionsRoute,
   ParentFeesRoute: ParentFeesRoute,
   ParentNotificationsRoute: ParentNotificationsRoute,
   ParentTransportRoute: ParentTransportRoute,
@@ -1314,6 +1500,7 @@ interface TeacherRouteChildren {
   TeacherFeedRoute: typeof TeacherFeedRoute
   TeacherFeesRoute: typeof TeacherFeesRoute
   TeacherLeaveRoute: typeof TeacherLeaveRoute
+  TeacherLiveClassRoute: typeof TeacherLiveClassRoute
   TeacherMaterialsRoute: typeof TeacherMaterialsRoute
   TeacherMessagesRoute: typeof TeacherMessagesRoute
   TeacherProfileRoute: typeof TeacherProfileRoute
@@ -1331,6 +1518,7 @@ const TeacherRouteChildren: TeacherRouteChildren = {
   TeacherFeedRoute: TeacherFeedRoute,
   TeacherFeesRoute: TeacherFeesRoute,
   TeacherLeaveRoute: TeacherLeaveRoute,
+  TeacherLiveClassRoute: TeacherLiveClassRoute,
   TeacherMaterialsRoute: TeacherMaterialsRoute,
   TeacherMessagesRoute: TeacherMessagesRoute,
   TeacherProfileRoute: TeacherProfileRoute,
@@ -1352,6 +1540,7 @@ const rootRouteChildren: RootRouteChildren = {
   StudentRoute: StudentRouteWithChildren,
   SuperAdminRoute: SuperAdminRouteWithChildren,
   TeacherRoute: TeacherRouteWithChildren,
+  DriverIndexRoute: DriverIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

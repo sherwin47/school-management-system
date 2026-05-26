@@ -3,7 +3,7 @@ import { useState } from "react";
 import { PageHeader, Panel } from "@/components/module-shell";
 import { useStore } from "@/lib/store";
 import { toast } from "sonner";
-import { BookOpen, CheckCircle, Circle, Percent, Plus } from "lucide-react";
+import { BookOpen, CheckCircle, Circle, Percent, Plus, ChevronDown, ChevronUp, FileText } from "lucide-react";
 
 export const Route = createFileRoute("/teacher/syllabus")({
   head: () => ({ meta: [{ title: "Syllabus Status · Campus OS" }] }),
@@ -14,6 +14,9 @@ function Page() {
   const { store, dispatch } = useStore();
   const [selectedGrade, setSelectedGrade] = useState("Grade 10");
   const [selectedSubject, setSelectedSubject] = useState("Mathematics");
+  
+  const [expandedModuleId, setExpandedModuleId] = useState<string | null>(null);
+  const [lessonSteps, setLessonSteps] = useState<Record<string, number>>({});
 
   const [showAddModule, setShowAddModule] = useState(false);
   const [newUnit, setNewUnit] = useState("");
@@ -62,6 +65,11 @@ function Page() {
     setNewUnit("");
     setNewTopics("");
     setShowAddModule(false);
+  };
+
+  const handleStepClick = (moduleId: string, stepIdx: number) => {
+    setLessonSteps(prev => ({ ...prev, [moduleId]: stepIdx }));
+    toast.success(`Lesson plan status updated to step ${stepIdx + 1}`);
   };
 
   return (
@@ -230,16 +238,59 @@ function Page() {
                   </div>
                 </div>
 
-                <span
-                  className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                    mod.completed
-                      ? "bg-[oklch(0.65_0.15_155)]/15 text-[oklch(0.45_0.15_155)]"
-                      : "bg-orange-500/10 text-orange-500"
-                  }`}
-                >
-                  {mod.completed ? "Completed" : "In Progress"}
-                </span>
+                <div className="flex gap-3 items-center">
+                  <span
+                    className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                      mod.completed
+                        ? "bg-[oklch(0.65_0.15_155)]/15 text-[oklch(0.45_0.15_155)]"
+                        : "bg-orange-500/10 text-orange-500"
+                    }`}
+                  >
+                    {mod.completed ? "Completed" : "In Progress"}
+                  </span>
+                  <button
+                    onClick={() => setExpandedModuleId(expandedModuleId === mod.id ? null : mod.id)}
+                    className="h-8 w-8 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-all"
+                  >
+                    {expandedModuleId === mod.id ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                  </button>
+                </div>
               </div>
+
+              {expandedModuleId === mod.id && (
+                <div className="mt-4 pt-4 border-t border-border animate-in fade-in slide-in-from-top-2">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-4 flex items-center justify-between">
+                    <span>Lesson Plan Status Steps</span>
+                    <button className="text-accent hover:underline flex items-center gap-1"><FileText className="h-3 w-3" /> View Notes</button>
+                  </div>
+                  <div className="relative px-4">
+                    {/* Connecting Line */}
+                    <div className="absolute top-4 left-8 right-8 h-0.5 bg-border -z-10" />
+                    <div className="flex items-center justify-between">
+                      {["Preparation", "Delivery", "Assessment", "Reflection"].map((step, idx) => {
+                        const currentStep = lessonSteps[mod.id] || 0;
+                        const isCompleted = idx < currentStep || mod.completed;
+                        const isActive = idx === currentStep && !mod.completed;
+                        return (
+                          <button 
+                            key={step} 
+                            onClick={() => handleStepClick(mod.id, idx)}
+                            className={`flex flex-col items-center gap-2 group outline-none`}
+                          >
+                            <div className={`h-8 w-8 rounded-full border-2 flex items-center justify-center bg-card transition-all ${
+                              isCompleted ? "border-emerald-500 bg-emerald-500 text-white" : 
+                              isActive ? "border-accent text-accent ring-4 ring-accent/20" : "border-border text-muted-foreground group-hover:border-accent/50"
+                            }`}>
+                              {isCompleted ? <CheckCircle className="h-4 w-4" /> : <span className="text-xs font-bold">{idx + 1}</span>}
+                            </div>
+                            <span className={`text-[10px] font-bold uppercase tracking-wider ${isActive ? "text-accent" : isCompleted ? "text-emerald-500" : "text-muted-foreground"}`}>{step}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           ))
         )}
